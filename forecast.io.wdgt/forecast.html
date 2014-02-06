@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <style>
+            body {
+                font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+                font-weight: 300;
+                color: #333;
+                background: rgba(255,255,255,0.65);
+                /* height: 250px; */
+            }
+            
+            a { color: #333; }
+            
+            .refresh_link { 
+                font-size: 14px; 
+                position: absolute;
+                right: 10px;
+                bottom: 8px;
+                padding-top: 2px;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+        
+            // adapted from http://stackoverflow.com/a/8567149/1200542
+            function getGeoIpData(callback) {
+                var xmlhttp = new XMLHttpRequest(); // no need to support old IE versions in an OS X dashboard widget
+                xmlhttp.onreadystatechange = function() {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        callback(xmlhttp.responseText);
+                    }
+                }
+                
+                xmlhttp.open("GET", "http://freegeoip.net/json/", true);
+                xmlhttp.send();
+            }
+            
+            var insertEmbed = function(geoIpJson) {
+                var geoIpObj = JSON.parse(geoIpJson);
+                
+                var lat = geoIpObj.latitude;
+                var lng = geoIpObj.longitude;
+                var city = geoIpObj.city + " (" + geoIpObj.zipcode + ")";
+                
+                var src = "http://forecast.io/embed/#lat="+lat+"&lon="+lng+"&name="+city;
+                document.getElementById("forecastio_embed").innerHTML = 
+                    '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="'
+                    + src
+                    + '"> </iframe>';
+            }
+            
+            window.onload = function() {
+                getGeoIpData(insertEmbed);
+            }
+        </script>
+        <div id="forecastio_embed"></div>
+        <div class="refresh_link"><a href="javascript:location.reload();">refresh</a></div>
+    </body>
+</html>
