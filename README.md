@@ -24,6 +24,6 @@ Credits
 =======
 
 * Forecast.io embed from http://blog.forecast.io/forecast-embeds/
-* GeoIP from https://freegeoip.net/
+* GeoIP from https://freegeoip.net/ (https://github.com/fiorix/freegeoip)
 
 
